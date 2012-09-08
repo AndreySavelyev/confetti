@@ -1,8 +1,9 @@
-class Confetti::ConfItem < BasicObject
+class Confetti::ConfItem
   attr_reader :attrs
   
   def self.build(&bl)
-    new &bl
+    item = new &bl
+    item.attrs
   end
 
   def initialize(&blk)
@@ -10,12 +11,12 @@ class Confetti::ConfItem < BasicObject
     instance_eval &blk
   end
   
-  def method_missing(name, *args)
-    # if block_given?
-    #   Confetti::ConfItem.build arg
-    # else
-      @attrs[name] = args.last
-    # end 
+  def method_missing(name, value = nil, &block)
+    if block_given?
+      @attrs[name] = self.class.build &block
+    else
+      @attrs[name] = value
+    end
   end
 
 end

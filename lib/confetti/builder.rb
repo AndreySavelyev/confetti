@@ -7,11 +7,10 @@ class Confetti::Builder
   end
   
   def initialize(env, &blk)
-    @env = env
     @envs = {}
     instance_eval &blk
     
-    attrs = @envs[@env]
+    attrs = @envs[env]
     
     puts attrs.inspect
     puts "^ attrs"
@@ -20,8 +19,7 @@ class Confetti::Builder
 
   def env(name, &blk)
     conf = Confetti::ConfItem.build &blk
-    puts "w9847384789237834982734982"
-    @envs[name] = conf.attrs
+    @envs[name] = conf
   end
   
 end
